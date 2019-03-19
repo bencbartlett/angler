@@ -27,8 +27,11 @@ class Simulation:
 
         grid_shape = eps_r.shape
         if len(grid_shape) == 1:
+            self.flatten = True
             grid_shape = (grid_shape[0], 1)
             eps_r = np.reshape(eps_r, grid_shape)
+        else:
+            self.flatten = False
 
         (Nx, Ny) = grid_shape
 
@@ -147,9 +150,14 @@ class Simulation:
             ex =  1/1j/self.omega * T_eps_y_inv.dot(Dyb).dot(X)
             ey = -1/1j/self.omega * T_eps_x_inv.dot(Dxb).dot(X)
 
-            Ex = ex.reshape((Nx, Ny))
-            Ey = ey.reshape((Nx, Ny))
-            Hz = X.reshape((Nx, Ny))
+            if self.flatten:
+                Ex = ex.flatten()
+                Ey = ey.flatten()
+                Hz = X.flatten()
+            else:
+                Ex = ex.reshape((Nx, Ny))
+                Ey = ey.reshape((Nx, Ny))
+                Hz = X.reshape((Nx, Ny))
 
             if include_nl==False:
                 self.fields['Ex'] = Ex
@@ -162,9 +170,14 @@ class Simulation:
             hx = -1/1j/self.omega/MU_0_ * Dyb.dot(X)
             hy = 1/1j/self.omega/MU_0_ * Dxb.dot(X)
 
-            Hx = hx.reshape((Nx, Ny))
-            Hy = hy.reshape((Nx, Ny))
-            Ez = X.reshape((Nx, Ny))
+            if self.flatten:
+                Hx = hx.flatten()
+                Hy = hy.flatten()
+                Ez = X.flatten()
+            else:
+                Hx = hx.reshape((Nx, Ny))
+                Hy = hy.reshape((Nx, Ny))
+                Ez = X.reshape((Nx, Ny))
 
             if include_nl==False:
                 self.fields['Hx'] = Hx
