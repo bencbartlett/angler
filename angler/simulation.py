@@ -14,7 +14,7 @@ from angler.plot import plt_base_eps, plt_base
 
 class Simulation:
 
-    def __init__(self, omega, eps_r, dl, NPML, pol, L0=DEFAULT_LENGTH_SCALE):
+    def __init__(self, omega, eps_r, dl, NPML, pol, L0=DEFAULT_LENGTH_SCALE, use_dirichlet_bcs=False):
         # initializes Fdfd object
 
         self.L0 = L0
@@ -22,6 +22,7 @@ class Simulation:
         self.NPML = NPML
         self.pol = pol
         self.dl = dl
+        self.use_dirichlet_bcs = use_dirichlet_bcs
 
         self._check_inputs()
 
@@ -107,6 +108,7 @@ class Simulation:
         (A, derivs) = construct_A(self.omega, self.xrange, self.yrange,
                                   self.eps_r, self.NPML, self.pol, self.L0,
                                   matrix_format=DEFAULT_MATRIX_FORMAT,
+                                  use_dirichlet_bcs=self.use_dirichlet_bcs,
                                   timing=False)
         self.A = A
         self.derivs = derivs
