@@ -26,7 +26,7 @@ def createDws(w, s, dL, N, matrix_format = DEFAULT_MATRIX_FORMAT, use_dirichlet_
                 Dws = 1 / dx * sp.kron(dxf, sp.eye(Ny), format = matrix_format)
             else:
                 if use_dirichlet_bcs:
-                    dxb = sp.diags([1, -1], [0, 1], shape = (Nx, Nx))
+                    dxb = sp.diags([1, -1], [0, -1], shape = (Nx, Nx))
                 else:
                     dxb = sp.diags([1, -1, -1], [0, -1, Nx - 1], shape = (Nx, Nx))
                 Dws = 1 / dx * sp.kron(dxb, sp.eye(Ny), format = matrix_format)
